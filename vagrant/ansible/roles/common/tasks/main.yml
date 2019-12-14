@@ -1,0 +1,46 @@
+---
+- name: Set timezone to America/New_York
+  timezone:
+    name: "{{ common_timezone }}"
+
+- name: Debian Backports APT repository
+  apt_repository:
+    repo: deb http://http.debian.net/debian buster-backports main contrib non-free
+    state: present
+    filename: buster-backport
+    update_cache: yes
+
+- name: Upgrade the distro
+  apt: upgrade=yes
+
+- name: Install base important packages
+  apt: pkg={{ packages }} state=latest
+  vars:
+    packages:
+      - apt-transport-https
+      - gnupg
+      - lsb-release
+      - build-essential
+      - linux-headers-amd64
+      - dkms
+      - dirmngr
+      - git
+      - tig
+      - tree
+      - vim
+      - curl
+      - unzip
+      - zsh
+      - tmux
+      - htop
+
+- name: Set VIM as default editor
+  shell: update-alternatives --set editor /usr/bin/vim.basic
+
+- name: Setup sysctl  for better performance
+  blockinfile:
+    path: /etc/sysctl.d/10-performance.conf
+    create: true
+    block: |
+      vm.swappiness={{ common_sys_vm_swappiness }}
+      fs.inotify.max_user_watches={{ common_sys_fs_max_user_watches }}

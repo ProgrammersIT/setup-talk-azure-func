@@ -1,0 +1,20 @@
+---
+# Install pyenv dependencies
+- name: Install PyEnv dependencies
+  apt:
+    pkg: "{{ python_pyenv_packages }}"
+    state: latest
+
+- name: Install PyEnv as local user
+  shell: curl https://pyenv.run | bash
+  become: yes
+  become_user: "{{ python_pyenv_nonroot_user }}"
+
+- name: Add PyEnv initialization to bashrc
+  blockinfile:
+    path: "{{ python_pyenv_nonroot_user_home }}/.bashrc"
+    create: true
+    block: |
+      export PATH="$HOME/.pyenv/bin:$PATH"
+      eval "$(pyenv init -)"
+      eval "$(pyenv virtualenv-init -)"

@@ -1,0 +1,6 @@
+---
+azure_cli_repo_key_url: https://packages.microsoft.com/keys/microsoft.asc
+azure_cli_apt_repo_list_filename: azure-cli
+
+azure_cli_packages:
+  - azure-cli

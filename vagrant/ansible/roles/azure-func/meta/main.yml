@@ -1,0 +1,21 @@
+---
+galaxy_info:
+  author: Carlos Cardoso
+  role_name: azure-func
+  description: Install Azure Functions Tools for Linux
+  license: Apache-2.0
+  min_ansible_version: 2.6
+
+  platforms:
+    - name: Debian
+      versions:
+        - buster
+
+  galaxy_tags:
+    - debian
+    - linux
+    - development
+    - azure
+    - functions
+
+dependencies: []

@@ -1,0 +1,5 @@
+---
+common_timezone: "America/New_York"
+
+common_sys_vm_swappiness: "20"
+common_sys_fs_max_user_watches: "524288"

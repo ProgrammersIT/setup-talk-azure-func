@@ -1,0 +1,6 @@
+---
+azure_func_repo_key_url: https://packages.microsoft.com/keys/microsoft.asc
+azure_func_apt_repo_list_filename: azure-func
+
+azure_func_packages:
+  - azure-functions-core-tools

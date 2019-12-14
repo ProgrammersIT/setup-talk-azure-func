@@ -1,0 +1,18 @@
+---
+- name: Install Azure-CLI APT repository key
+  apt_key:
+    url: "{{ azure_cli_repo_key_url }}"
+    state: present
+
+- name: Add Azure-CLI APT repository
+  apt_repository:
+    repo: deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ buster main
+    state: present
+    filename: "{{ azure_cli_apt_repo_list_filename }}"
+    update_cache: true
+
+- name: Install Azure-CLI packages
+  apt:
+    pkg: "{{ item }}"
+    state: latest
+  loop: "{{ azure_cli_packages }}"

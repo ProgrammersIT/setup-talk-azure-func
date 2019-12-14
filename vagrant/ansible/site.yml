@@ -1,0 +1,19 @@
+---
+- name: Setup Talk Azure Functions machine provisioning
+  hosts: all
+  become: true
+
+  vars:
+    common_timezone: "America/New_York"
+
+    # in case there are roles that install/update non-global
+    # configuration should look at `nonroot_user` var to
+    # find out who is the default user in the system
+    nonroot_user: "vagrant"
+    nonroot_user_home: "/home/vagrant"
+
+  roles:
+    - common
+    - azure-cli
+    - azure-func
+    - python-pyenv

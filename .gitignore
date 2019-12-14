@@ -1,0 +1,5 @@
+azure-functions-core-tools/
+.vscode/
+.vagrant/
+
+local.settings.json

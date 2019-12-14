@@ -1,0 +1,18 @@
+---
+- name: Install Azure Functions APT repository key
+  apt_key:
+    url: "{{ azure_func_repo_key_url }}"
+    state: present
+
+- name: Add Azure Functions APT repository
+  apt_repository:
+    repo: deb [arch=amd64] https://packages.microsoft.com/debian/9/prod stretch main
+    state: present
+    filename: "{{ azure_func_apt_repo_list_filename }}"
+    update_cache: true
+
+- name: Install Azure Functions packages
+  apt:
+    pkg: "{{ item }}"
+    state: latest
+  loop: "{{ azure_func_packages }}"

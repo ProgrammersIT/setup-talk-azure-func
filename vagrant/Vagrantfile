@@ -1,0 +1,34 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# All Vagrant configuration is done below. The "2" in Vagrant.configure
+# configures the configuration version (we support older styles for
+# backwards compatibility). Please don't change it unless you know what
+# you're doing.
+Vagrant.configure("2") do |config|
+  config.vm.box = "geerlingguy/debian10"
+  config.vm.box_check_update = true
+  config.vm.hostname = "setuptalk.local"
+
+  config.vm.provider "virtualbox" do |vm|
+    vm.gui = false
+    vm.cpus = 2
+    vm.memory = "8192"
+
+    vm.customize ["modifyvm", :id, "--pae", "on"]
+  end
+
+  config.vm.network :forwarded_port, id: "api",     guest: 7071, host: 7071
+  config.vm.network :forwarded_port, id: "debug",   guest: 7071, host: 9091
+
+  # this will ensure ansible provisioning will work.
+  config.vm.synced_folder ".", "/vagrant"
+  config.vm.synced_folder "../", "/code", owner: "vagrant", group: "vagrant", mount_options: ["dmode=755", "fmode=644"]
+
+  # follow steps in playbook to setup the development environment
+  config.vm.provision :shell, inline: "apt-get update && apt-get install -y aptitude python-pip && pip install ansible"
+  config.vm.provision :ansible_local do |ansible|
+    ansible.playbook = "ansible/site.yml"
+    ansible.limit = "all"
+  end
+end
